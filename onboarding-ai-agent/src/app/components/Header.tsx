@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Header() {
   return (
     <header
@@ -6,10 +8,21 @@ export default function Header() {
         padding: "0.25rem 1rem",
         color: "white",
         textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100x",
       }}
     >
-      <h1 style={{ margin: "0", fontSize: "1rem", fontWeight: "bold" }}>
-        Elanco IAC
+      <Image
+        src="/elanco-header.png"
+        alt="Elanco IAC Logo"
+        height={80}
+        width={80}
+        priority
+      />
+      <h1 style={{ marginLeft: "4px", fontSize: "1rem", fontWeight: "bold" }}>
+        IAC, India
       </h1>
     </header>
   );
