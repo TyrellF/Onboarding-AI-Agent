@@ -9,6 +9,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
+  OAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
 // import { useRouter } from "next/navigation";
@@ -19,6 +20,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<UserCredential>;
   signup: (email: string, password: string) => Promise<UserCredential>;
   loginWithGoogle: () => Promise<UserCredential>;
+  loginWithMicrosoft: () => Promise<UserCredential>;
   logout: () => Promise<void>;
 }
 
@@ -61,6 +63,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return signInWithPopup(auth, provider);
   };
 
+  const loginWithMicrosoft = () => {
+    const provider = new OAuthProvider("microsoft.com");
+    return signInWithPopup(auth, provider);
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -77,6 +84,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     login,
     signup,
     loginWithGoogle,
+    loginWithMicrosoft,
     logout,
   };
 
