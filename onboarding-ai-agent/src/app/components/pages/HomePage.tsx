@@ -185,29 +185,29 @@ const mockLearningMaterials = [
 const mockTeamMembers = [
   {
     id: 1,
-    name: "Jane Smith",
-    role: "Team Lead",
+    name: "Prabhu",
+    role: "Associate Director",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
   {
     id: 2,
-    name: "John Adams",
-    role: "Senior Developer",
+    name: "Vaishnavi",
+    role: "Associate Director",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
   {
     id: 3,
-    name: "Alice Johnson",
-    role: "Product Manager",
+    name: "Bajrang bhushan",
+    role: "Senior Software Engineer",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
   {
     id: 4,
-    name: "Robert Brown",
-    role: "UX Designer",
+    name: "Varman",
+    role: "Senior software Engineer",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
