@@ -185,29 +185,36 @@ const mockLearningMaterials = [
 const mockTeamMembers = [
   {
     id: 1,
-    name: "Jane Smith",
-    role: "Team Lead",
+    name: "Vaishnavi Makam Gopalakrishna",
+    role: "Associate Director - Platform Engineering",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
   {
     id: 2,
-    name: "John Adams",
-    role: "Senior Developer",
+    name: "Bajrang Bhushan",
+    role: "Senior Software Engineer",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
   {
     id: 3,
-    name: "Alice Johnson",
-    role: "Product Manager",
+    name: "Marthandavarman V",
+    role: "Senior Associate Manager",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
   {
-    id: 4,
-    name: "Robert Brown",
-    role: "UX Designer",
+    id: 5,
+    name: "Prabhu Vignesh Kumar Rajagopal",
+    role: "Associate Director - Software Engineering",
+    imageUrl:
+      "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+  },
+  {
+    id: 5,
+    name: "Bob Smith",
+    role: "IT Support",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
   },
@@ -232,25 +239,25 @@ export default function Home() {
     },
     {
       id: 2,
-      title: "Set up development environment",
+      title: "My First Task",
       status: "pending",
       lastUpdate: "2025-04-25",
     },
     {
       id: 3,
-      title: "Meet with team lead",
+      title: "My Next Onboarding Processes",
       status: "pending",
       lastUpdate: "2025-04-22",
     },
     {
       id: 4,
-      title: "Review company policies",
+      title: "Review Company Policies",
       status: "pending",
       lastUpdate: "2025-04-19",
     },
     {
       id: 5,
-      title: "Submit benefits enrollment form",
+      title: "Attend Orientation Session",
       status: "pending",
       lastUpdate: "2025-04-15",
     },
@@ -1200,9 +1207,9 @@ export default function Home() {
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="How do I set up my workstation?"
+                        label="How do I set up my GitHub Account?"
                         onClick={() =>
-                          setMessage("How do I set up my workstation?")
+                          setMessage("How do I set up my GitHub Account?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
@@ -1214,9 +1221,11 @@ export default function Home() {
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="Show my profile information"
+                        label="Where am I now in the onboarding process?"
                         onClick={() =>
-                          setMessage("Show my profile information")
+                          setMessage(
+                            "Where am I now in the onboarding process?"
+                          )
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
