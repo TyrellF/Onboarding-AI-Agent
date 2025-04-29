@@ -630,98 +630,20 @@ export default function Home() {
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            gap: 0,
+            gap: 1,
             width: "100%",
           }}
         >
-          <Box sx={{ width: { xs: "100%", md: "33%" } }}>
+          <Box sx={{ width: { xs: "100%", md: "30%" } }}>
             <StyledPaper
               sx={{
-                minHeight: "200px",
-                height: "auto",
+                height: "600px",
                 bgcolor: theme.palette.primary.light,
                 color: "white",
+                padding: 1,
+                boxSizing: "border-box",
               }}
             >
-              <Box sx={{ mb: 4 }}>
-                <Paper sx={{ p: 3, borderRadius: "12px" }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: { xs: "column", md: "row" },
-                      alignItems: { xs: "flex-start", md: "center" },
-                      justifyContent: "space-between",
-                      gap: 1,
-                    }}
-                  >
-                    {" "}
-                    <Box sx={{ width: { xs: "100%" } }}>
-                      <Typography variant="h6" fontWeight="medium">
-                        Onboarding Progress
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mb: 1 }}
-                      >
-                        {progress}% Complete
-                      </Typography>
-                      <LinearProgress
-                        variant="determinate"
-                        value={progress}
-                        sx={{
-                          height: 10,
-                          borderRadius: 5,
-                          backgroundColor: "rgba(0,0,0,0.1)",
-                          "& .MuiLinearProgress-bar": {
-                            borderRadius: 5,
-                          },
-                        }}
-                      />
-
-                      <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            sx={{
-                              width: 12,
-                              height: 12,
-                              backgroundColor: "success.main",
-                              borderRadius: "50%",
-                              mr: 1,
-                            }}
-                          />
-                          <Typography variant="body2">Completed</Typography>
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            sx={{
-                              width: 12,
-                              height: 12,
-                              backgroundColor: "warning.main",
-                              borderRadius: "50%",
-                              mr: 1,
-                            }}
-                          />
-                          <Typography variant="body2">In Progress</Typography>
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            sx={{
-                              width: 12,
-                              height: 12,
-                              backgroundColor: "grey.500",
-                              borderRadius: "50%",
-                              mr: 1,
-                            }}
-                          />
-                          <Typography variant="body2">Pending</Typography>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Paper>
-              </Box>
-
               <Box
                 sx={{
                   display: "flex",
@@ -730,11 +652,16 @@ export default function Home() {
                 }}
               >
                 <Box sx={{ width: { xs: "100%", md: "100%" } }}>
-                  <StyledPaper>
+                  <StyledPaper
+                    sx={{
+                      padding: 2,
+                      boxSizing: "border-box",
+                    }}
+                  >
                     <Tabs
                       value={tabValue}
                       onChange={handleTabChange}
-                      sx={{ mb: 3, borderBottom: 1, borderColor: "divider" }}
+                      sx={{ mt: 0, mb: 1, borderColor: "divider" }} // Set top margin to 0
                       textColor="primary"
                       indicatorColor="primary"
                     >
@@ -757,108 +684,198 @@ export default function Home() {
 
                     {/* Tasks Tab */}
                     {tabValue === 0 && (
-                      <Box>
+                      <Box sx={{ mb: 2 }}>
                         <Box
                           sx={{
                             display: "flex",
+                            flexDirection: { xs: "column", md: "row" },
+                            alignItems: { xs: "flex-start", md: "center" },
                             justifyContent: "space-between",
-                            alignItems: "center",
-                            mb: 2,
+                            gap: 1,
                           }}
                         >
-                          <Typography
-                            variant="subtitle1"
-                            gutterBottom
-                            sx={{ mb: 0 }}
-                          >
-                            Your Tasks
-                          </Typography>
-                          <Button
-                            size="small"
-                            variant="outlined"
-                            color="secondary"
-                            startIcon={<RestartAltIcon />}
-                            onClick={resetTasks}
-                          >
-                            Reset All Tasks
-                          </Button>
-                        </Box>
-                        {tasks.map((task) => (
-                          <StyledCard
-                            key={task.id}
-                            onClick={() => {
-                              setMessage(task.title);
-                              // Store the task ID when clicked to reference later
-                              setSelectedTaskId(task.id);
-                            }}
-                            sx={{
-                              cursor: "pointer",
-                              "&:hover": { transform: "translateY(-4px)" },
-                            }}
-                          >
-                            <CardContent>
+                          <Box sx={{ width: "100%" }}>
+                            <Typography variant="h6" fontWeight="medium">
+                              Onboarding Progress
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              sx={{ mb: 1 }}
+                            >
+                              {progress}% Complete
+                            </Typography>
+                            <LinearProgress
+                              variant="determinate"
+                              value={progress}
+                              sx={{
+                                height: 10,
+                                borderRadius: 5,
+                                backgroundColor: "rgba(0,0,0,0.1)",
+                                "& .MuiLinearProgress-bar": {
+                                  borderRadius: 5,
+                                },
+                              }}
+                            />
+                            <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
                               <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "flex-start",
-                                  mb: 1,
-                                }}
+                                sx={{ display: "flex", alignItems: "center" }}
                               >
-                                <Typography variant="h6">
-                                  {task.title}
-                                </Typography>
-                                <StatusChip
-                                  label={
-                                    task.status.charAt(0).toUpperCase() +
-                                    task.status.slice(1)
-                                  }
-                                  status={task.status}
-                                  size="small"
-                                  icon={getStatusIcon(task.status)}
+                                <Box
+                                  sx={{
+                                    width: 12,
+                                    height: 12,
+                                    backgroundColor: "success.main",
+                                    borderRadius: "50%",
+                                    mr: 1,
+                                  }}
                                 />
+                                <Typography variant="body2">
+                                  Completed
+                                </Typography>
                               </Box>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                sx={{ mb: 2 }}
-                              ></Typography>
                               <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                }}
+                                sx={{ display: "flex", alignItems: "center" }}
                               >
-                                <Button
-                                  size="small"
-                                  variant="outlined"
-                                  color={
-                                    task.status === "completed"
-                                      ? "error"
-                                      : "primary"
-                                  }
-                                  onClick={(e) => {
-                                    e.stopPropagation(); // Prevent triggering the card click
-                                    toggleTaskStatus(task.id);
+                                <Box
+                                  sx={{
+                                    width: 12,
+                                    height: 12,
+                                    backgroundColor: "warning.main",
+                                    borderRadius: "50%",
+                                    mr: 1,
+                                  }}
+                                />
+                                <Typography variant="body2">
+                                  In Progress
+                                </Typography>
+                              </Box>
+                              <Box
+                                sx={{ display: "flex", alignItems: "center" }}
+                              >
+                                <Box
+                                  sx={{
+                                    width: 12,
+                                    height: 12,
+                                    backgroundColor: "grey.500",
+                                    borderRadius: "50%",
+                                    mr: 1,
+                                  }}
+                                />
+                                <Typography variant="body2">Pending</Typography>
+                              </Box>
+                            </Box>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                mt: 2,
+                                mb: 0,
+                              }}
+                            >
+                              <Typography variant="subtitle1" gutterBottom>
+                                Your Tasks
+                              </Typography>
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                color="secondary"
+                                startIcon={<RestartAltIcon />}
+                                onClick={resetTasks}
+                              >
+                                Reset All Tasks
+                              </Button>
+                            </Box>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            maxHeight: "300px",
+                            overflowY: "auto",
+                          }}
+                        >
+                          {tasks.map((task) => (
+                            <StyledCard
+                              key={task.id}
+                              onClick={() => {
+                                setMessage(task.title);
+                                setSelectedTaskId(task.id);
+                              }}
+                              sx={{
+                                cursor: "pointer",
+                                "&:hover": { transform: "translateY(-4px)" },
+                              }}
+                            >
+                              <CardContent>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "flex-start",
+                                    mb: 1,
                                   }}
                                 >
-                                  {task.status === "completed"
-                                    ? "Mark Incomplete"
-                                    : "Mark Complete"}
-                                </Button>
-                              </Box>
-                            </CardContent>
-                          </StyledCard>
-                        ))}
+                                  <Typography variant="h6">
+                                    {task.title}
+                                  </Typography>
+                                  <StatusChip
+                                    label={
+                                      task.status.charAt(0).toUpperCase() +
+                                      task.status.slice(1)
+                                    }
+                                    status={task.status}
+                                    size="small"
+                                    icon={getStatusIcon(task.status)}
+                                  />
+                                </Box>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                  sx={{ mb: 2 }}
+                                ></Typography>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Button
+                                    size="small"
+                                    variant="outlined"
+                                    color={
+                                      task.status === "completed"
+                                        ? "error"
+                                        : "primary"
+                                    }
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleTaskStatus(task.id);
+                                    }}
+                                  >
+                                    {task.status === "completed"
+                                      ? "Mark Incomplete"
+                                      : "Mark Complete"}
+                                  </Button>
+                                </Box>
+                              </CardContent>
+                            </StyledCard>
+                          ))}
+                        </Box>
                       </Box>
                     )}
 
                     {/* Learning Tab */}
                     {tabValue === 1 && (
-                      <Box>
+                      <Box
+                        sx={{
+                          maxHeight: "472px",
+                          overflowY: "auto",
+                        }}
+                      >
                         {mockLearningMaterials.map((material) => (
-                          <StyledCard key={material.id}>
+                          <StyledCard key={material.id} sx={{ mb: 2 }}>
                             <CardContent>
                               <Box
                                 sx={{
@@ -896,7 +913,12 @@ export default function Home() {
 
                     {/* Team Tab */}
                     {tabValue === 2 && (
-                      <Box>
+                      <Box
+                        sx={{
+                          maxHeight: "472px",
+                          overflowY: "auto",
+                        }}
+                      >
                         <Typography variant="subtitle1" gutterBottom>
                           Your Team Members
                         </Typography>
@@ -946,10 +968,9 @@ export default function Home() {
             <StyledPaper
               elevation={0}
               sx={{
-                minHeight: "200px",
-                height: "auto",
-                border: 2,
-                borderColor: "black",
+                height: "600px",
+                border: "2px solid",
+                borderColor: "#0070CC",
               }}
             >
               <Box sx={{ mb: 0 }}>
