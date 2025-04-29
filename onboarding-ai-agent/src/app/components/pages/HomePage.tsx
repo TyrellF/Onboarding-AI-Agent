@@ -502,6 +502,7 @@ export default function Home() {
 
       // Clear input field
       setMessage("");
+      setIsLoading(true);
 
       try {
         const response = await axios.post(
@@ -576,7 +577,7 @@ export default function Home() {
               {currentUser && currentUser.email ? (
                 <>
                   Welcome{" "}
-                  <span style={{ color: "blue" }}>
+                  <span style={{ color: "#0070CC" }}>
                     {currentUser.email
                       .split("@")[0]
                       .split(/[._]/)[0]
@@ -585,7 +586,7 @@ export default function Home() {
                   !
                 </>
               ) : (
-                "Welcome to your onboarding portal"
+                "Welcome User!"
               )}
             </Typography>
           </Box>
