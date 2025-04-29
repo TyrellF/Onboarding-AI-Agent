@@ -695,9 +695,13 @@ export default function Home() {
                           }}
                         >
                           <Box sx={{ width: "100%" }}>
-                            <Typography variant="h6" fontWeight="medium">
+                            <Typography
+                              fontWeight="medium"
+                              sx={{ fontSize: "18px" }}
+                            >
                               Onboarding Progress
                             </Typography>
+
                             <Typography
                               variant="body2"
                               color="text.secondary"
@@ -791,7 +795,7 @@ export default function Home() {
                         </Box>
                         <Box
                           sx={{
-                            maxHeight: "300px",
+                            maxHeight: "306px",
                             overflowY: "auto",
                           }}
                         >
@@ -816,7 +820,10 @@ export default function Home() {
                                     mb: 1,
                                   }}
                                 >
-                                  <Typography variant="h6">
+                                  <Typography
+                                    fontWeight="medium"
+                                    sx={{ fontSize: "18px" }}
+                                  >
                                     {task.title}
                                   </Typography>
                                   <StatusChip
@@ -885,7 +892,10 @@ export default function Home() {
                                   mb: 1,
                                 }}
                               >
-                                <Typography variant="h6">
+                                <Typography
+                                  fontWeight="medium"
+                                  sx={{ fontSize: "18px" }}
+                                >
                                   {material.title}
                                 </Typography>
                                 <MenuBookIcon color="primary" />
@@ -964,7 +974,7 @@ export default function Home() {
               </Box>
             </StyledPaper>
           </Box>
-          <Box sx={{ width: { xs: "100%", md: "67%" } }}>
+          <Box sx={{ width: { xs: "100%", md: "70%" } }}>
             <StyledPaper
               elevation={0}
               sx={{
