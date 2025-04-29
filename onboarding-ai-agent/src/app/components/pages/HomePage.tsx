@@ -602,7 +602,12 @@ export default function Home() {
               sx={{ mr: 2 }}
             >
               {/* Display name and surname */}
-              <Typography variant="body2" color="text.primary" sx={{ mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                color="text.primary"
+                sx={{ mb: 0.5 }}
+                fontWeight="bold"
+              >
                 {currentUser?.email
                   ? currentUser.email
                       .split("@")[0]
@@ -615,7 +620,11 @@ export default function Home() {
                       .join(" ")
                   : "User"}
               </Typography>
-              <Typography variant="body2" color="text.primary">
+              <Typography
+                variant="body2"
+                color="text.primary"
+                fontWeight="bold"
+              >
                 {currentUser.email}
               </Typography>
             </Box>
