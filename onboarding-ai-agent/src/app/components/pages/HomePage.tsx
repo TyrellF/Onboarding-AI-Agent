@@ -1224,17 +1224,17 @@ export default function Home() {
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="Who should I contact for IT support?"
+                        label="Who to contact for IT support?"
                         onClick={() =>
-                          setMessage("Who should I contact for IT support?")
+                          setMessage("Who to contact for IT support?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="Where am I now in the onboarding process?"
+                        label="Where am I in the onboarding process?"
                         onClick={() =>
                           setMessage(
-                            "Where am I now in the onboarding process?"
+                            "Where am I in the onboarding process?"
                           )
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
