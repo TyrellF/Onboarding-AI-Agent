@@ -9,9 +9,9 @@ export default function Header() {
         color: "white",
         textAlign: "center",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
-        height: "100x",
+        height: "50px",
       }}
     >
       <Image
@@ -21,8 +21,14 @@ export default function Header() {
         width={80}
         priority
       />
-      <h1 style={{ marginLeft: "4px", fontSize: "1rem", fontWeight: "bold" }}>
-        IAC, India
+      <h1
+        style={{
+          marginLeft: "570px",
+          fontSize: "1.6rem",
+          fontWeight: "bold",
+        }}
+      >
+        Onboarding AI Agent
       </h1>
     </header>
   );
