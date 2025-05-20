@@ -41,4 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # python backend
-Q&A-and-RAG-with-SQL-and-TabularData/
+# Q&A-and-RAG-with-SQL-and-TabularData/
+.vscode/
+explore/
