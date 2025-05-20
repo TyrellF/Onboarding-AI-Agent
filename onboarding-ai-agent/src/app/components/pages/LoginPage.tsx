@@ -19,7 +19,11 @@ import { useRouter } from "next/navigation";
 
 const LoginPage: React.FC = () => {
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingStates, setLoadingStates] = useState({
+    google: false,
+    microsoft: false,
+    email: false,
+  });
   const [email, setEmail] = useState("");
 
   const { loginWithGoogle, loginWithMicrosoft, login } = useAuth();
@@ -27,7 +31,7 @@ const LoginPage: React.FC = () => {
 
   const handleGoogleAuth = async () => {
     try {
-      setLoading(true);
+      setLoadingStates((prev) => ({ ...prev, google: true }));
       await loginWithGoogle();
       router.push("/");
     } catch (err: unknown) {
@@ -35,13 +39,13 @@ const LoginPage: React.FC = () => {
         err instanceof Error ? err.message : "Failed to sign in with Google"
       );
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({ ...prev, google: false }));
     }
   };
 
   const handleMicrosoftAuth = async () => {
     try {
-      setLoading(true);
+      setLoadingStates((prev) => ({ ...prev, microsoft: true }));
       await loginWithMicrosoft();
       router.push("/");
     } catch (err: unknown) {
@@ -49,21 +53,21 @@ const LoginPage: React.FC = () => {
         err instanceof Error ? err.message : "Failed to sign in with Microsoft"
       );
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({ ...prev, microsoft: false }));
     }
   };
 
   const handleEmailAuth = async () => {
     try {
-      setLoading(true);
-      await login(email, ""); 
+      setLoadingStates((prev) => ({ ...prev, email: true }));
+      await login(email, "");
       router.push("/");
     } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : "Failed to sign in with Email"
       );
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({ ...prev, email: false }));
     }
   };
 
@@ -118,7 +122,11 @@ const LoginPage: React.FC = () => {
             sx={{ mb: 2 }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
+            disabled={
+              loadingStates.email ||
+              loadingStates.google ||
+              loadingStates.microsoft
+            }
           />
 
           <Button
@@ -126,10 +134,19 @@ const LoginPage: React.FC = () => {
             variant="outlined"
             sx={{ py: 1.5 }}
             onClick={handleEmailAuth}
-            startIcon={<EmailIcon />}
-            disabled={loading || !email}
+            startIcon={!loadingStates.email && <EmailIcon />}
+            disabled={
+              loadingStates.email ||
+              loadingStates.google ||
+              loadingStates.microsoft ||
+              !email
+            }
           >
-            {loading ? <CircularProgress size={24} /> : "Continue with SSO"}
+            {loadingStates.email ? (
+              <CircularProgress size={24} />
+            ) : (
+              "Continue with SSO"
+            )}
           </Button>
 
           <Divider sx={{ my: 3 }}>
@@ -143,10 +160,18 @@ const LoginPage: React.FC = () => {
             variant="outlined"
             sx={{ py: 1.5, mb: 2 }}
             onClick={handleGoogleAuth}
-            startIcon={<GoogleIcon />}
-            disabled={loading}
+            startIcon={!loadingStates.google && <GoogleIcon />}
+            disabled={
+              loadingStates.email ||
+              loadingStates.google ||
+              loadingStates.microsoft
+            }
           >
-            {loading ? <CircularProgress size={24} /> : "Continue with Google"}
+            {loadingStates.google ? (
+              <CircularProgress size={24} />
+            ) : (
+              "Continue with Google"
+            )}
           </Button>
 
           <Button
@@ -154,10 +179,14 @@ const LoginPage: React.FC = () => {
             variant="outlined"
             sx={{ py: 1.5, mb: 2 }}
             onClick={handleMicrosoftAuth}
-            startIcon={<MicrosoftIcon />}
-            disabled={loading}
+            startIcon={!loadingStates.microsoft && <MicrosoftIcon />}
+            disabled={
+              loadingStates.email ||
+              loadingStates.google ||
+              loadingStates.microsoft
+            }
           >
-            {loading ? (
+            {loadingStates.microsoft ? (
               <CircularProgress size={24} />
             ) : (
               "Continue with Microsoft"
