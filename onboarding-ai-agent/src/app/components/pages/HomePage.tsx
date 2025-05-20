@@ -164,21 +164,56 @@ const StatusChip = styled(Chip)<StatusChipProps>(({ theme, status }) => {
 const mockLearningMaterials = [
   {
     id: 1,
-    title: "Introduction to Company Culture",
-    description: "Learn about our values and working style",
-    url: "#",
+    title: "Understanding TypeScript",
+    description: "Master TypeScript from beginner to advanced concepts",
+    url: "https://elanco.udemy.com/course/understanding-typescript/",
   },
   {
     id: 2,
-    title: "Technical Stack Overview",
-    description: "Get familiar with our technology ecosystem",
-    url: "#",
+    title: "Next.js & React - The Complete Guide",
+    description: "Learn Next.js for production-grade React applications",
+    url: "https://elanco.udemy.com/course/nextjs-react-the-complete-guide/",
   },
   {
     id: 3,
-    title: "Product Training",
-    description: "Core functionality and use cases",
-    url: "#",
+    title: "Google Cloud Platform (GCP) - Complete Guide",
+    description: "Comprehensive introduction to GCP services and architecture",
+    url: "https://elanco.udemy.com/course/google-cloud-platform/",
+  },
+  {
+    id: 4,
+    title: "The Complete Software Engineering Bootcamp",
+    description:
+      "Learn software engineering principles, system design, and development practices.",
+    url: "https://elanco.udemy.com/course/software-engineering-bootcamp/",
+  },
+  {
+    id: 5,
+    title: "Clean Code: Writing Code for Humans",
+    description:
+      "Best practices and principles for writing clean, maintainable code.",
+    url: "https://elanco.udemy.com/course/clean-code/",
+  },
+  {
+    id: 6,
+    title: "System Design Primer",
+    description:
+      "Master the fundamentals of scalable system design with real-world examples.",
+    url: "https://elanco.udemy.com/course/system-design-primer/",
+  },
+  {
+    id: 7,
+    title: "Advanced JavaScript Concepts",
+    description:
+      "Go deep into JavaScript concepts and best practices for professional developers.",
+    url: "https://elanco.udemy.com/course/advanced-javascript-concepts/",
+  },
+  {
+    id: 8,
+    title: "DevOps for Developers: A Practical Guide",
+    description:
+      "Learn how to integrate DevOps practices into your development workflow.",
+    url: "https://elanco.udemy.com/course/devops-for-developers/",
   },
 ];
 
@@ -189,6 +224,7 @@ const mockTeamMembers = [
     role: "Associate Director - Platform Engineering",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+    email: "vaishnavi.makam_gopalakrishna@elancoah.com",
   },
   {
     id: 2,
@@ -196,6 +232,7 @@ const mockTeamMembers = [
     role: "Senior Software Engineer",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+    email: "bajrang.bhushan@elancoah.com",
   },
   {
     id: 3,
@@ -203,6 +240,7 @@ const mockTeamMembers = [
     role: "Senior Associate Manager",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+    email: "marthandavarman.v@elancoah.com",
   },
   {
     id: 4,
@@ -210,6 +248,7 @@ const mockTeamMembers = [
     role: "Associate Director - Software Engineering",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+    email: "prabhu_vignesh_kumar.rajagopal@elancoah.com",
   },
   {
     id: 5,
@@ -217,6 +256,7 @@ const mockTeamMembers = [
     role: "IT Support",
     imageUrl:
       "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+    email: "",
   },
 ];
 
@@ -233,35 +273,70 @@ export default function Home() {
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      title: "Complete IT Security Training",
+      title: "My First Task",
       status: "pending",
       lastUpdate: "2025-04-20",
     },
     {
       id: 2,
-      title: "My First Task",
+      title: "My Next Onboarding Processes",
       status: "pending",
       lastUpdate: "2025-04-25",
     },
     {
       id: 3,
-      title: "My Next Onboarding Processes",
+      title: "Review Company Policies",
       status: "pending",
       lastUpdate: "2025-04-22",
     },
     {
       id: 4,
-      title: "Review Company Policies",
+      title: "How do I set up my GitHub account?",
       status: "pending",
       lastUpdate: "2025-04-19",
     },
     {
       id: 5,
-      title: "Attend Orientation Session",
+      title: "How many teams are there in the company?",
       status: "pending",
       lastUpdate: "2025-04-15",
     },
   ]);
+
+  const [accessedResources, setAccessedResources] = useState<number[]>([]);
+  const [scheduledMeetings, setScheduledMeetings] = useState<number[]>([]);
+
+  // Update the handleResourceAccess function to open the URL
+  const handleResourceAccess = (
+    id: number,
+    url: string,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    setAccessedResources((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    window.open(url, "_blank");
+  };
+
+  const handleScheduleMeeting = (
+    id: number,
+    email: string,
+    name: string,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+
+    if (!scheduledMeetings.includes(id)) {
+      const subject = encodeURIComponent(`Meet with ${name}`);
+      const body = encodeURIComponent(`Introduction meeting with ${name}`);
+
+      const teamsUrl = `https://teams.microsoft.com/l/meeting/new?attendees=${encodeURIComponent(
+        email
+      )}&subject=${subject}&body=${body}`;
+      window.open(teamsUrl, "_blank");
+
+      setScheduledMeetings((prev) => [...prev, id]);
+    }
+  };
 
   const userFirstName = currentUser?.email
     ? currentUser.email
@@ -271,63 +346,62 @@ export default function Home() {
     : "New Employee";
 
   const personalGuidanceData = {
-    title: `${userFirstName}'s Guidance Plan`,
-    description: `Here are some personalized resources to help you get started in your role.`,
+    title: `Useful links for ${userFirstName}`,
+    description: `Here are some links to help you get started.`,
     resources: [
       {
-        title: "Your Onboarding Checklist",
-        description: "Tasks to complete in your first 30 days",
-        link: "/onboarding-checklist",
+        title: "Software access request URL",
+        description: "Request access to software and tools you'll need",
+        link: "https://thespot.elanco.com/accessflow?id=accessflow_new_request",
         icon: <CheckCircleIcon color="primary" />,
       },
       {
-        title: "Meet Your Team",
-        description: "Schedule introductions with key team members",
-        link: "/team-calendar",
+        title: "Onboarding Plan Template",
+        description: "The onboarding plan template for every new hire",
+        link: "https://elancoah.sharepoint.com/sites/PrototypeOnboardingPlan/Shared%20Documents/Forms/AllItems.aspx",
         icon: <PeopleIcon color="primary" />,
       },
       {
-        title: "Role-specific Training",
-        description: "Required courses for your position",
-        link: "/training",
+        title: "Elanco SharePoint",
+        description: "Elanco's internal resource hub",
+        link: "https://elancoah-my.sharepoint.com/",
         icon: <SchoolIcon color="primary" />,
       },
       {
-        title: "First Month Goals",
-        description: "Objectives to achieve in your first month",
-        link: "/goals",
+        title: "Elanco MyApps",
+        description: "The place to access all your applications",
+        link: "https://myapps.microsoft.com/",
         icon: <RocketLaunchIcon color="primary" />,
       },
     ],
   };
 
   const companyCultureData = {
-    title: "Our Company Culture",
-    description:
-      "Discover what makes our company unique and how you can contribute to our culture.",
+    title: "Access Requests",
+    description: "Here you can find links to raise access requests.",
     resources: [
       {
-        title: "Company Values Video",
-        description: "A message from our CEO about our core values",
-        link: "/videos/company-values",
+        title: "GitHub onboarding",
+        description: "TheSpot link for GitHub onboarding",
+        link: "https://thespot.elanco.com/esc?id=kb_article&table=kb_knowledge&sys_id=730c5b371b3095503e9deb1cad4bcb67&recordUrl=%2Fkb_view.do%3Fsys_kb_id%3D730c5b371b3095503e9deb1cad4bcb67",
         icon: <VideoLibraryIcon color="secondary" />,
       },
       {
-        title: "Employee Handbook",
-        description: "Guidelines, policies, and important information",
-        link: "/handbook",
+        title: "Lucid Chart",
+        description: "TheSpot link for Lucid Chart onboarding",
+        link: "https://thespot.elanco.com/accessflow?id=accessflow_new_request",
         icon: <ArticleIcon color="secondary" />,
       },
       {
-        title: "Upcoming Company Events",
-        description: "Social and team building opportunities",
-        link: "/events",
+        title: "GCP",
+        description: "TheSpot link for GCP onboarding",
+        link: "https://thespot.elanco.com/accessflow?id=accessflow_new_request",
         icon: <EventIcon color="secondary" />,
       },
       {
-        title: "Culture Blog",
-        description: "Stories and articles about our company culture",
-        link: "/culture-blog",
+        title: "Change profile type in service now",
+        description: "TheSpot link for changing profile type in service now",
+        link: "Go to https://thespot.elanco.com/sp",
         icon: <ArticleIcon color="secondary" />,
       },
     ],
@@ -335,30 +409,31 @@ export default function Home() {
 
   const learningResourcesData = {
     title: `Learning Resources for ${userFirstName}`,
-    description: `Enhance your skills with these customized learning resources selected for your role.`,
+    description: `Enhance your skills with these learning resources selected for your role.`,
     resources: [
       {
-        title: "Role-specific Course Bundle",
-        description: "Key training modules for your position",
-        link: "/courses/role-specific",
+        title: "Elanco Developer Portal",
+        description: "Access the developer portal for learning resources",
+        link: "https://developer.elanco.com",
         icon: <SchoolIcon color="success" />,
       },
       {
-        title: "Technical Documentation",
-        description: "Essential documentation for tools and systems you'll use",
-        link: "/documentation",
+        title: "Complete Self Rating - Skills Matrix",
+        description:
+          "Self-assess your skills and identify areas for improvement",
+        link: "https://developer.elanco.com/golden-paths/software-engineering-and-platforms/engineer-onboarding/4-step-4-tell-us-about-yourself/4-1-self-rate-your-skills",
         icon: <ArticleIcon color="success" />,
       },
       {
-        title: "Recommended Tutorials",
-        description: "Step-by-step guides for common tasks",
-        link: "/tutorials",
+        title: "Complete Golden Path",
+        description: "Follow the golden path for onboarding",
+        link: "https://developer.elanco.com/golden-paths",
         icon: <VideoLibraryIcon color="success" />,
       },
       {
-        title: "Mentorship Program",
-        description: "Connect with experienced team members for guidance",
-        link: "/mentorship",
+        title: "Workday",
+        description: "HR tool for employee management",
+        link: "https://wd5.myworkday.com/elanco/d/home.htmld",
         icon: <PeopleIcon color="success" />,
       },
     ],
@@ -926,11 +1001,22 @@ export default function Home() {
                               </Typography>
                               <Button
                                 size="small"
-                                variant="outlined"
-                                href={material.url}
-                                target="_blank"
+                                variant={
+                                  accessedResources.includes(material.id)
+                                    ? "contained"
+                                    : "outlined"
+                                }
+                                onClick={(e) =>
+                                  handleResourceAccess(
+                                    material.id,
+                                    material.url,
+                                    e
+                                  )
+                                }
                               >
-                                Access Resource
+                                {accessedResources.includes(material.id)
+                                  ? "Resource Accessed!"
+                                  : "Access Resource"}
                               </Button>
                             </CardContent>
                           </StyledCard>
@@ -972,12 +1058,37 @@ export default function Home() {
                                   </Typography>
                                   <Button
                                     size="small"
-                                    startIcon={<CalendarTodayIcon />}
+                                    startIcon={
+                                      scheduledMeetings.includes(member.id) ? (
+                                        <CheckCircleIcon />
+                                      ) : (
+                                        <CalendarTodayIcon />
+                                      )
+                                    }
                                     sx={{ mt: 1 }}
-                                    href="https://teams.microsoft.com/l/meeting/new"
+                                    href={
+                                      scheduledMeetings.includes(member.id)
+                                        ? "#"
+                                        : "https://teams.microsoft.com/l/meeting/new"
+                                    }
                                     target="_blank"
+                                    onClick={(e) =>
+                                      handleScheduleMeeting(
+                                        member.id,
+                                        member.email,
+                                        member.name,
+                                        e
+                                      )
+                                    }
+                                    color={
+                                      scheduledMeetings.includes(member.id)
+                                        ? "success"
+                                        : "primary"
+                                    }
                                   >
-                                    Schedule Meeting
+                                    {scheduledMeetings.includes(member.id)
+                                      ? "Meeting scheduled!"
+                                      : "Schedule Meeting"}
                                   </Button>
                                 </Box>
                               </CardContent>
@@ -1210,32 +1321,30 @@ export default function Home() {
                     </Typography>
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
                       <Chip
-                        label="What should I do on my first day?"
+                        label="What to do on my first day?"
                         onClick={() =>
-                          setMessage("What should I do on my first day?")
+                          setMessage("What to do on my first day?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="How do I set up my GitHub Account?"
+                        label="How to set up GitHub Account?"
                         onClick={() =>
-                          setMessage("How do I set up my GitHub Account?")
+                          setMessage("How to set up GitHub Account?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="Who to contact for IT support?"
+                        label="How many teams are there in the company?"
                         onClick={() =>
-                          setMessage("Who to contact for IT support?")
+                          setMessage("How many teams are there in the company?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
                         label="Where am I in the onboarding process?"
                         onClick={() =>
-                          setMessage(
-                            "Where am I in the onboarding process?"
-                          )
+                          setMessage("Where am I in the onboarding process?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
@@ -1287,10 +1396,10 @@ export default function Home() {
                     <PersonIcon fontSize="large" />
                   </Avatar>
                   <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    Personal Guidance
+                    Useful Links
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Personalized resources for your role
+                    Personalized resource links for your role
                   </Typography>
                 </CardContent>
               </FeatureCard>
@@ -1327,10 +1436,10 @@ export default function Home() {
                     <BusinessIcon fontSize="large" />
                   </Avatar>
                   <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    Company Culture
+                    Access Requests
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Learn what makes our company unique
+                    Request access to tools and resources
                   </Typography>
                 </CardContent>
               </FeatureCard>
@@ -1370,7 +1479,7 @@ export default function Home() {
                     Learning Resources
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Educational materials to help you grow
+                    Access learning materials and courses
                   </Typography>
                 </CardContent>
               </FeatureCard>
@@ -1404,6 +1513,7 @@ export default function Home() {
                   key={index}
                   component="a"
                   href={resource.link}
+                  target="_blank"
                   sx={{
                     mb: 1.5,
                     bgcolor: "background.paper",
@@ -1486,6 +1596,7 @@ export default function Home() {
                   key={index}
                   component="a"
                   href={resource.link}
+                  target="_blank"
                   sx={{
                     mb: 1.5,
                     bgcolor: "background.paper",
@@ -1569,6 +1680,7 @@ export default function Home() {
                   key={index}
                   component="a"
                   href={resource.link}
+                  target="_blank"
                   sx={{
                     mb: 1.5,
                     bgcolor: "background.paper",
