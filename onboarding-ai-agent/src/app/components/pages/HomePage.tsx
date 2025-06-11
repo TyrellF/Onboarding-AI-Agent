@@ -47,22 +47,18 @@ import SendIcon from "@mui/icons-material/Send";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
 import Image from "next/image";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 // Function to get the user's initials from email
 const getInitial = (email: string) => {
   const emailPrefix = email.split("@")[0];
-
-  // Check if email contains separators like dots or underscores
   if (emailPrefix.includes(".") || emailPrefix.includes("_")) {
-    // Split by common separators
     const parts = emailPrefix.split(/[._-]/);
-    // Get first letter of first part and first letter of last part
     return (
       parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
     ).toUpperCase();
   }
-
-  // If no separator exists, just return the first letter
   return emailPrefix.charAt(0).toUpperCase();
 };
 
@@ -150,7 +146,6 @@ const StatusChip = styled(Chip)<StatusChipProps>(({ theme, status }) => {
     default:
       color = theme.palette.grey[500];
   }
-
   return {
     backgroundColor: `${color}20`,
     color: color,
@@ -160,6 +155,17 @@ const StatusChip = styled(Chip)<StatusChipProps>(({ theme, status }) => {
     },
   };
 });
+
+const renderFormattedContent = (text: string) => {
+  if (/^\d+\./m.test(text)) {
+    const listItems = text
+      .split(/\n|(?=\d+\.)/)
+      .filter((item) => item.trim() !== "")
+      .map((item, index) => <li key={index}>{item.trim()}</li>);
+    return <ol style={{ paddingLeft: "1.2em", margin: 0 }}>{listItems}</ol>;
+  }
+  return <span>{text}</span>;
+};
 
 const mockLearningMaterials = [
   {
@@ -439,57 +445,34 @@ export default function Home() {
     ],
   };
 
-  // Add this function after the tasks state
-  const toggleTaskStatus = (id: number) => {
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD format
-
+  // Replace toggleTaskStatus with direct complete/incomplete logic
+  const handleTaskStatus = (id: number) => {
+    const today = new Date().toISOString().split("T")[0];
     setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        if (task.id === id) {
-          // Define status cycle: pending -> in-progress -> completed -> pending
-          let newStatus;
-          switch (task.status) {
-            case "completed":
-              newStatus = "pending"; // Reset to not started
-              break;
-            case "in-progress":
-              newStatus = "completed";
-              break;
-            case "pending":
-              newStatus = "in-progress";
-              break;
-            case "overdue":
-              newStatus = "in-progress";
-              break;
-            default:
-              newStatus = "in-progress";
-          }
-
-          return {
-            ...task,
-            status: newStatus,
-            lastUpdate: today,
-          };
-        }
-        return task;
-      })
+      prevTasks.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              status: task.status === "completed" ? "pending" : "completed",
+              lastUpdate: today,
+            }
+          : task
+      )
     );
   };
-  // Add this function next to the toggleTaskStatus function
-  const resetTasks = () => {
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD format
 
+  const resetTasks = () => {
+    const today = new Date().toISOString().split("T")[0];
     setTasks((prevTasks) =>
       prevTasks.map((task) => ({
         ...task,
-        status: "pending", // Reset to "pending" status (not started)
+        status: "pending",
         lastUpdate: today,
       }))
     );
   };
-  // Modify the existing useEffect for progress calculation
+
   useEffect(() => {
-    // Calculate progress based on completed tasks
     const completedTasks = tasks.filter(
       (task) => task.status === "completed"
     ).length;
@@ -497,9 +480,8 @@ export default function Home() {
       (completedTasks / tasks.length) * 100
     );
     setProgress(progressPercentage);
-  }, [tasks]); // Add tasks as a dependency
+  }, [tasks]);
 
-  // Get status icon based on task status
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "completed":
@@ -541,7 +523,6 @@ export default function Home() {
     }
   };
 
-  // Scroll to bottom whenever chat history changes
   useEffect(() => {
     scrollToBottom();
   }, [chatHistory]);
@@ -571,11 +552,9 @@ export default function Home() {
             return task;
           })
         );
-        // Reset the selected task ID
         setSelectedTaskId(null);
       }
 
-      // Clear input field
       setMessage("");
       setIsLoading(true);
 
@@ -593,16 +572,12 @@ export default function Home() {
             },
           }
         );
-        console.log("Response:", response.data); // Log the response
-        // If response contains a 'response' field, update chat history
         if (response.data.response) {
           setChatHistory((prevHistory) => [
             ...prevHistory,
             { role: "assistant", content: response.data.response },
           ]);
         } else {
-          // If no 'response' field, log the error or display a message
-          console.error("No response field found:", response.data);
           setChatHistory((prevHistory) => [
             ...prevHistory,
             {
@@ -612,10 +587,8 @@ export default function Home() {
           ]);
         }
       } catch (error) {
-        console.error("Error sending message to Flask API:", error);
-        setIsLoading(false); // Stop the loading indicator
-
-        // Optionally, you can show an error message in the chat UI
+        console.error("Error communicating with server:", error);
+        setIsLoading(false);
         setChatHistory((prevHistory) => [
           ...prevHistory,
           {
@@ -632,6 +605,7 @@ export default function Home() {
   const handleClearChat = () => {
     setChatHistory([]);
   };
+
   return (
     <div style={{ backgroundColor: "#f6f6f6" }}>
       <Header />
@@ -645,7 +619,7 @@ export default function Home() {
           <Box
             display="flex"
             flexDirection="column"
-            alignItems="flex-start" // Align content to the left
+            alignItems="flex-start"
             sx={{ mr: 2, color: "text.primary" }}
           >
             <Typography variant="h4" fontWeight="bold" gutterBottom>
@@ -666,7 +640,6 @@ export default function Home() {
             </Typography>
           </Box>
         </Box>
-
         {/* Right-hand side */}
         {currentUser && (
           <Box display="flex" alignItems="center">
@@ -703,7 +676,6 @@ export default function Home() {
                 {currentUser.email}
               </Typography>
             </Box>
-
             <Button
               variant="outlined"
               color="primary"
@@ -716,7 +688,6 @@ export default function Home() {
           </Box>
         )}
       </Toolbar>
-
       <Container maxWidth={false}>
         <Box
           sx={{
@@ -753,7 +724,7 @@ export default function Home() {
                     <Tabs
                       value={tabValue}
                       onChange={handleTabChange}
-                      sx={{ mt: 0, mb: 1, borderColor: "divider" }} // Set top margin to 0
+                      sx={{ mt: 0, mb: 1, borderColor: "divider" }}
                       textColor="primary"
                       indicatorColor="primary"
                     >
@@ -773,7 +744,6 @@ export default function Home() {
                         iconPosition="start"
                       />
                     </Tabs>
-
                     {/* Tasks Tab */}
                     {tabValue === 0 && (
                       <Box sx={{ mb: 2 }}>
@@ -793,7 +763,6 @@ export default function Home() {
                             >
                               Onboarding Progress
                             </Typography>
-
                             <Typography
                               variant="body2"
                               color="text.secondary"
@@ -895,8 +864,90 @@ export default function Home() {
                             <StyledCard
                               key={task.id}
                               onClick={() => {
-                                setMessage(task.title);
-                                setSelectedTaskId(task.id);
+                                const handleTaskClick = async (
+                                  taskTitle: string,
+                                  taskId: number
+                                ) => {
+                                  setChatHistory((prevHistory) => [
+                                    ...prevHistory,
+                                    { role: "user", content: taskTitle },
+                                  ]);
+
+                                  setTasks((prevTasks) =>
+                                    prevTasks.map((task) => {
+                                      if (
+                                        task.id === taskId &&
+                                        task.status !== "completed"
+                                      ) {
+                                        return {
+                                          ...task,
+                                          status: "in-progress",
+                                          lastUpdate: new Date()
+                                            .toISOString()
+                                            .split("T")[0],
+                                        };
+                                      }
+                                      return task;
+                                    })
+                                  );
+
+                                  setMessage("");
+                                  setSelectedTaskId(null);
+                                  setIsLoading(true);
+
+                                  try {
+                                    const response = await axios.post(
+                                      "http://localhost:5000/api/query",
+                                      {
+                                        message: taskTitle,
+                                        chat_type: "Q&A with stored SQL-DB",
+                                        app_functionality: "Chat",
+                                      },
+                                      {
+                                        headers: {
+                                          "Content-Type": "application/json",
+                                        },
+                                      }
+                                    );
+
+                                    if (response.data.response) {
+                                      setChatHistory((prevHistory) => [
+                                        ...prevHistory,
+                                        {
+                                          role: "assistant",
+                                          content: response.data.response,
+                                        },
+                                      ]);
+                                    } else {
+                                      setChatHistory((prevHistory) => [
+                                        ...prevHistory,
+                                        {
+                                          role: "assistant",
+                                          content:
+                                            "Error: No response received from server.",
+                                        },
+                                      ]);
+                                    }
+                                  } catch (error) {
+                                    console.error(
+                                      "Error communicating with server:",
+                                      error
+                                    );
+                                    setChatHistory((prevHistory) => [
+                                      ...prevHistory,
+                                      {
+                                        role: "assistant",
+                                        content:
+                                          "Error: Failed to communicate with server.",
+                                      },
+                                    ]);
+                                  } finally {
+                                    setIsLoading(false);
+                                  }
+                                };
+
+                                // Call the function with the current task data
+                                handleTaskClick(task.title, task.id);
                               }}
                               sx={{
                                 cursor: "pointer",
@@ -950,7 +1001,7 @@ export default function Home() {
                                     }
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      toggleTaskStatus(task.id);
+                                      handleTaskStatus(task.id);
                                     }}
                                   >
                                     {task.status === "completed"
@@ -964,7 +1015,6 @@ export default function Home() {
                         </Box>
                       </Box>
                     )}
-
                     {/* Learning Tab */}
                     {tabValue === 1 && (
                       <Box
@@ -1023,7 +1073,6 @@ export default function Home() {
                         ))}
                       </Box>
                     )}
-
                     {/* Team Tab */}
                     {tabValue === 2 && (
                       <Box
@@ -1136,7 +1185,6 @@ export default function Home() {
                       Clear Chat
                     </Button>
                   </Box>
-
                   <Box
                     ref={chatContainerRef}
                     sx={{ height: "340px", overflowY: "auto", mb: 1 }}
@@ -1152,7 +1200,7 @@ export default function Home() {
                         }}
                       >
                         <Typography>
-                          Start a conversation with the assistant
+                          Start a conversation with the onboarding assistant
                         </Typography>
                       </Box>
                     ) : (
@@ -1161,7 +1209,8 @@ export default function Home() {
                           key={index}
                           sx={{
                             display: "flex",
-                            justifyContent:
+                            flexDirection: "column",
+                            alignItems:
                               chat.role === "user" ? "flex-end" : "flex-start",
                             mb: 2,
                           }}
@@ -1170,12 +1219,11 @@ export default function Home() {
                             sx={{
                               display: "flex",
                               alignItems: "center",
-                              marginLeft: chat.role === "user" ? 2 : 0,
-                              marginRight: chat.role === "user" ? 0 : 2,
                               flexDirection:
                                 chat.role === "user" ? "row-reverse" : "row",
                             }}
                           >
+                            {/* Avatar */}
                             {chat.role === "assistant" && (
                               <div
                                 style={{
@@ -1214,17 +1262,14 @@ export default function Home() {
                                   alignItems: "center",
                                   color: "white",
                                   fontWeight: "bold",
-                                  marginLeft:
-                                    chat.role === "user" ? "8px" : "0px",
-                                  marginRight:
-                                    chat.role === "user" ? "0px" : "8px",
+                                  marginLeft: "8px",
                                   fontSize: "14px",
                                 }}
                               >
                                 {getInitial(currentUser?.email || "")}
                               </Box>
                             )}
-
+                            {/* Message Bubble */}
                             <Paper
                               elevation={0}
                               sx={{
@@ -1240,11 +1285,52 @@ export default function Home() {
                                   chat.role === "user" ? "white" : "inherit",
                               }}
                             >
-                              <Typography variant="body1">
-                                {chat.content}
+                              <Typography variant="body1" component="div">
+                                {renderFormattedContent(chat.content)}
                               </Typography>
                             </Paper>
                           </Box>
+                          {/* Like/Dislike Buttons (Assistant Only) */}
+                          {chat.role === "assistant" && (
+                            <Box
+                              sx={{
+                                mt: 1,
+                                display: "flex",
+                                justifyContent: "flex-start",
+                                pl: "38px",
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  cursor: "pointer",
+                                  mr: 2,
+                                  transition: "color 0.2s ease",
+                                  "&:hover": {
+                                    color: "success.main"
+                                  }
+                                }}
+                              >
+                                <ThumbUpIcon sx={{ mr: 0.5 }} />
+                                <Typography variant="body2">Like</Typography>
+                              </Box>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  cursor: "pointer",
+                                  transition: "color 0.2s ease",
+                                  "&:hover": {
+                                    color: "error.main"
+                                  }
+                                }}
+                              >
+                                <ThumbDownIcon sx={{ mr: 0.5 }} />
+                                <Typography variant="body2">Dislike</Typography>
+                              </Box>
+                            </Box>
+                          )}
                         </Box>
                       ))
                     )}
@@ -1269,7 +1355,6 @@ export default function Home() {
                       </Box>
                     )}
                   </Box>
-
                   <Box
                     sx={{
                       display: "flex",
@@ -1310,7 +1395,6 @@ export default function Home() {
                       Send
                     </Button>
                   </Box>
-
                   <Box sx={{ mt: 4 }}>
                     <Typography
                       variant="subtitle1"
@@ -1342,9 +1426,9 @@ export default function Home() {
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
                       <Chip
-                        label="Where am I in the onboarding process?"
+                        label="Who to reach out for IT support?"
                         onClick={() =>
-                          setMessage("Where am I in the onboarding process?")
+                          setMessage("Who to reach out for IT support?")
                         }
                         sx={{ borderRadius: "16px", py: 0.5 }}
                       />
@@ -1404,7 +1488,6 @@ export default function Home() {
                 </CardContent>
               </FeatureCard>
             </Box>
-
             <Box
               sx={{
                 flex: "1 1 calc(33.333% - 16px)",
@@ -1444,7 +1527,6 @@ export default function Home() {
                 </CardContent>
               </FeatureCard>
             </Box>
-
             <Box
               sx={{
                 flex: "1 1 calc(33.333% - 16px)",
@@ -1486,7 +1568,6 @@ export default function Home() {
             </Box>
           </Box>
         </Box>
-
         <Modal
           open={personalGuidanceOpen}
           onClose={() => setPersonalGuidanceOpen(false)}
@@ -1569,7 +1650,6 @@ export default function Home() {
             </Box>
           </Box>
         </Modal>
-
         <Modal
           open={companyCultureOpen}
           onClose={() => setCompanyCultureOpen(false)}
@@ -1653,7 +1733,6 @@ export default function Home() {
             </Box>
           </Box>
         </Modal>
-
         <Modal
           open={learningResourcesOpen}
           onClose={() => setLearningResourcesOpen(false)}
