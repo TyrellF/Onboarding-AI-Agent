@@ -72,6 +72,7 @@ It integrates with Microsoft Teams and even provides calendar invites.
 
 > *"Your 1:1 with your manager (Jane Doe) is scheduled for Aug 4, 2025 at 11:00 AM."*
 > ![Teams Scheduler](./images/TeamsMeetingScheduler.png)
+> ![Teams Scheduler](./images/Teams.png)
 
 ---
 
@@ -99,17 +100,18 @@ One place to find:
 * Internal tools and dashboards
 
 > *"Need VPN access or help with payroll setup? Click here."*
+> ![Additional Links](./images/AdditionalInfoFooter.png)
 > ![Additional Links](./images/AdditionalInfoLinks.png)
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Frontend**: React, Tailwind CSS
-* **Backend**: Node.js, Express
+* **Frontend**: Next.js, Tailwind CSS
+* **Backend**: TypeScript (Node.js)
 * **AI Services**: Azure Bot Framework, OpenAI API
 * **Integrations**: Microsoft Graph API (Teams), Outlook, SharePoint
-* **Database**: MongoDB / PostgreSQL
+* **Database**: MySQL
 
 ---
 
